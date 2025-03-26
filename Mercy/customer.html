@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer - HealthMap India</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --shadow-color: rgba(0,0,0,0.15);
+        }
+
+        .customer-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .left-article iframe,
+        .center-map iframe {
+            width: 100%;
+            height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px var(--shadow-color);
+            border: none;
+        }
+
+        .left-article, .center-map {
+            flex: 2;
+        }
+
+        .right-login {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-container, .dashboard-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 7px 20px var(--shadow-color);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: transform .2s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+        }
+
+        .form-footer {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .form-footer a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        /* Dashboard specific styling */
+        .dashboard-container h2 {
+            margin-bottom: 15px;
+        }
+
+        .trend-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f3f9fe;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 900px) {
+            .customer-container {flex-direction: column;}
+            .left-article iframe, .center-map iframe {height: 50vh;}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🌏 HealthMap India</h1>
+    <p>Customer Portal for HealthMap India</p>
+</header>
+
+<div class="customer-container">
+    <section class="left-article">
+        <iframe src="https://www.indianhealthcareblog.com/" frameborder="0"></iframe>
+    </section>
+
+    <section class="center-map">
+        <iframe src="https://www.google.com/maps/embed?pb=YOUR_MAP_EMBED_CODE" frameborder="0"></iframe>
+    </section>
+
+    <section class="right-login">
+        <div class="form-container">
+            <h2>Customer Sign In</h2>
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button onclick="location.href='customer-login.html'">Login</button>
+            <button class="otp-btn">Login with OTP</button>
+            <div class="form-footer">
+                <a href="customer-signup.html">Don't have an account? Sign Up</a>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <h2>📊 Public Awareness Dashboard</h2>
+            <div class="trend-item">
+                <strong>New Delhi:</strong> Influenza reports increased by 12% in last 7 days.
+            </div>
+            <div class="trend-item">
+                <strong>Mumbai:</strong> Dengue fever cases stable. Keep preventive measures active.
+            </div>
+            <div class="trend-item">
+                <strong>Bengaluru:</strong> Respiratory infections decreasing steadily.
+            </div>
+            <div class="trend-item">
+                <strong>Hyderabad:</strong> Spike noted in stomach flu incidents, stay cautious.
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer>&copy; 2024 HealthMap India</footer>
+
+</body>
+</html>

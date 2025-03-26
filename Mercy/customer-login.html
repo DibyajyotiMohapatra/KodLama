@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer Dashboard - HealthMap India</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --success-color: #28a745;
+      --shadow-color: rgba(0, 0, 0, 0.15);
+      --btn-hover-brightness: 1.15;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header,
+    footer {
+      text-align: center;
+      padding: 15px;
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: 0 6px 12px var(--shadow-color);
+      border-radius: 15px;
+      margin: 10px;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 25px;
+      box-sizing: border-box;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .buttons-container, .map-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px var(--shadow-color);
+      padding: 20px;
+    }
+
+    .buttons-container{
+      flex: 1;
+      min-width: 250px;
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .map-container{
+      flex: 3;
+      min-width: 350px;
+      max-width: 800px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary-color);
+      color: white;
+      padding: 10px 20px;
+      width: 70%;
+      max-width: 250px;
+      margin: 10px auto;
+      font-size: 15px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 15px var(--shadow-color);
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    }
+
+    .btn.success {
+      background-color: var(--success-color);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px var(--shadow-color);
+      filter: brightness(var(--btn-hover-brightness));
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border-radius: 12px;
+      border: none;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .popup-box {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px var(--shadow-color);
+      padding: 20px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      animation: slideDown 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;} to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+      from {transform: translateY(-50px);} to {transform: translateY(0);}
+    }
+
+    @media(max-width: 800px){
+      .dashboard-container{
+        flex-direction: column-reverse;
+      }
+
+      .map-container{
+        min-width: 100%;
+      }
+
+      .buttons-container{
+        min-width: 100%;
+        max-width: none;
+      }
+
+      .btn{
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🌏 Customer Dashboard</h1>
+  <p>Manage Your Files and View Disease Outbreaks</p>
+</header>
+
+<div class="dashboard-container">
+  <div class="buttons-container">
+    <button class="btn success" onclick="showPopup('view')">📁 View Files</button>
+    <button class="btn" onclick="showPopup('upload')">⬆️ Upload File</button>
+  </div>
+
+  <div class="map-container">
+    <h3 style="text-align:center;">Disease Outbreaks Near You 📍</h3>
+    <iframe id="locationMap"
+            src="https://www.google.com/maps?q=ITER+Siksha+O+Anusandhan,+Bhubaneswar&output=embed">
+    </iframe>
+  </div>
+</div>
+
+<footer>&copy; 2024 HealthMap India</footer>
+
+<div class="overlay" id="overlay">
+  <div class="popup-box" id="popup-box"></div>
+</div>
+
+<script>
+  const overlay = document.getElementById('overlay');
+  const popupBox = document.getElementById('popup-box');
+
+  function showPopup(type){
+    overlay.style.display = 'flex';
+    if(type === 'upload'){
+      popupBox.innerHTML=`
+      <h2>📤 Upload File</h2>
+      <input type="file" id="uploadFile"><br>
+      <button class="btn" onclick="uploadFile()">Upload Now</button>
+      <button class="btn success" onclick="closePopup()">Cancel</button>`;
+    } else{
+      popupBox.innerHTML=`
+      <h2>📁 Files Stored</h2>
+      <div id="file-list">Loading...</div>
+      <button class="btn success" onclick="closePopup()">Close</button>`;
+      fetchFiles();
+    }
+  }
+
+  function closePopup(){
+    overlay.style.display='none';
+  }
+
+  async function uploadFile(){
+    const fileInput=document.getElementById('uploadFile');
+    if(fileInput.files.length===0){
+      alert('No file selected!');
+      return;
+    }
+    const file=fileInput.files[0],
+            formData=new FormData();
+    formData.append('file',file);
+
+    try{
+      const resp= await fetch('http://localhost:5000/api/upload',{
+        method:'POST',credentials:'include',body:formData});
+      alert(resp.ok?'Upload successful!':'Upload failed!');
+    }catch(e){
+      alert('Error occurred!');
+    }
+    closePopup();
+  }
+
+  async function fetchFiles(){
+    try{
+      const resp=await fetch('http://localhost:5000/api/files',{credentials:'include'}),
+              data=await resp.json();
+      document.getElementById('file-list').innerHTML=data.files.length
+              ? data.files.map(f=>`<p>${f}</p>`).join('')
+              :'No files uploaded!';
+    } catch(e){document.getElementById('file-list').innerHTML='Error fetching files!';}
+  }
+
+  // Location Request
+  window.onload=()=>{
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(()=>alert('Location access successful.'));
+    } else{
+      alert('Geolocation unsupported.');
+    }
+  };
+</script>
+
+</body>
+</html>

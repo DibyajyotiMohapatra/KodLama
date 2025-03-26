@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer Signup - HealthMap India</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --success-color: #28a745;
+      --hover-brightness: 1.15;
+      --shadow-color: rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header, footer {
+      width: 100%;
+      padding: 15px;
+      text-align: center;
+      background-color: #ffffff;
+      box-shadow: 0px 4px 6px var(--shadow-color);
+    }
+
+    header {
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+
+    footer {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      width: 100%;
+    }
+
+    .form-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px var(--shadow-color);
+      width: 400px;
+      text-align: center;
+      animation: slideIn .6s ease forwards;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+    }
+
+    .form-container form input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      transition: border 0.2s ease;
+    }
+
+    .form-container form input:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+    }
+
+    .form-container form button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      background-color: var(--primary-color);
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+      margin-top: 10px;
+    }
+
+    .form-container form button:hover {
+      transform: translateY(-3px);
+      filter: brightness(var(--hover-brightness));
+      box-shadow: 0 6px 18px var(--shadow-color);
+    }
+
+    .form-footer {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .form-footer a {
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: color 0.2s ease;
+    }
+
+    .form-footer a:hover {
+      color: var(--success-color);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .form-container {
+        width: 90%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🌏 HealthMap India</h1>
+  <p>Create Your HealthMap India Account</p>
+</header>
+
+<main>
+  <div class="form-container">
+    <h2>Sign Up</h2>
+    <form action="#" method="post">
+      <input type="text" placeholder="Full Name" required>
+      <input type="text" placeholder="Username" required>
+      <input type="number" placeholder="Age" required>
+      <input type="tel" placeholder="Phone Number" required>
+      <input type="password" placeholder="Password" required>
+      <input type="password" placeholder="Confirm Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="form-footer">
+      <a href="customer.html">Already have an account? Sign in</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  &copy; 2024 HealthMap India
+</footer>
+
+</body>
+</html>
